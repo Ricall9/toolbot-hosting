@@ -36,11 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     document.head.appendChild(styles);
 
-    // Mostrar/Ocultar chat al hacer clic en botón
+    // Mostrar/Ocultar chat al hacer clic en botón flotante
     chatButton.onclick = function() {
-        chatContainer.style.display = chatContainer.style.display === "flex" ? "none" : "flex";
+        chatContainer.style.display = (chatContainer.style.display === "block") ? "none" : "block";
     };
 
+    // Cerrar chat al hacer clic en el encabezado
     document.getElementById("chat-header").onclick = function() {
         chatContainer.style.display = "none";
     };
@@ -48,10 +49,10 @@ document.addEventListener("DOMContentLoaded", function () {
     // ID único por usuario
     if (!localStorage.getItem('userID')) {
         localStorage.setItem('userID', 'user_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
-    }
+    };
 });
 
-// Función para Enter
+// Función para detectar "Enter" y enviar mensaje
 function handleKeyPress(event) {
     if (event.key === "Enter") sendMessage();
 }
@@ -94,5 +95,6 @@ function addMessage(text, className) {
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// Definir sendMessage globalmente
+// Asegurar que sendMessage sea accesible globalmente
 window.sendMessage = sendMessage;
+window.handleKeyPress = handleKeyPress;
