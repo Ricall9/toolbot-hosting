@@ -39,13 +39,17 @@ document.addEventListener("visibilitychange", function() {
     }
 });
 
-// Revisar cada 5 segundos si el botón desaparece y recrearlo
+// Revisar cada 3 segundos si el botón desaparece y recrearlo
 setInterval(() => {
-    if (!document.getElementById("chat-float")) {
+    let chatButton = document.getElementById("chat-float");
+
+    if (!chatButton) {
         console.log("⚠️ El botón desapareció. Se está recreando...");
         ensureChatLoaded();
+    } else {
+        console.log("✅ El botón sigue en la página.");
     }
-}, 5000);
+}, 3000);
 
 // Asegurar que el script se ejecuta tras la recarga
 document.addEventListener("DOMContentLoaded", ensureChatLoaded);
