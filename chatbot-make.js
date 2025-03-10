@@ -27,17 +27,17 @@ document.addEventListener("DOMContentLoaded", function () {
       #chat-float {
         position: fixed; bottom: 20px; right: 20px; width: 60px; height: 60px;
         background-color: #0088cc; border-radius: 50%; box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
-        display: flex; justify-content: center; align-items: center; z-index: 9999; cursor: pointer;
+        display: flex; justify-content: center; align-items: center; z-index: 10000; cursor: pointer;
       }
       #chat-container {
         position: fixed; bottom: 90px; right: 20px; width: 350px; max-width: 90%; background: #f9f9f9;
-        border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 10000;
+        border-radius: 10px; box-shadow: 0px 4px 10px rgba(0,0,0,0.3); display: none; flex-direction: column; z-index: 10001;
       }
     `;
     document.head.appendChild(styles);
 
     // Mostrar/Ocultar chat al hacer clic en botón
-    document.getElementById("chat-float").onclick = function() {
+    chatButton.onclick = function() {
         chatContainer.style.display = chatContainer.style.display === "flex" ? "none" : "flex";
     };
 
@@ -48,7 +48,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // ID único por usuario
     if (!localStorage.getItem('userID')) {
         localStorage.setItem('userID', 'user_' + Date.now() + '_' + Math.floor(Math.random() * 1000));
-    };
+    }
 });
 
 // Función para Enter
@@ -92,5 +92,7 @@ function addMessage(text, className) {
     messageElement.textContent = text;
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
-    window.sendMessage = sendMessage;
 }
+
+// Definir sendMessage globalmente
+window.sendMessage = sendMessage;
