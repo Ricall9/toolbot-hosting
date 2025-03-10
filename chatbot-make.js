@@ -58,4 +58,72 @@
 
     // Asegurar que el script se ejecuta tras la recarga
     document.addEventListener("DOMContentLoaded", ensureChatLoaded);
+
+    // Detectar si el botón es eliminado por otros scripts
+    const observer = new MutationObserver(mutations => {
+        mutations.forEach(mutation => {
+            mutation.removedNodes.forEach(node => {
+                if (node.id === "chat-float") {
+                    console.warn("⚠️ Alguien eliminó #chat-float", mutation);
+                    console.log("🔍 Revisando qué script lo eliminó...");
+                    ensureChatLoaded(); // Recrea el botón si es eliminado
+                }
+            });
+        });
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    // Función para detectar "Enter" y enviar mensaje
+    function handleKeyPress(event) {
+        if (event.key === "Enter") sendMessage();
+    }
+
+    // Función enviar mensajes al webhook (optimizado para reducir tokens)
+    async function sendMessage() {
+        const userInput = document.getElementById("user-input");
+        const messageText = userInput.value.trim();
+        if (!messageText) return;
+
+        addMessage(messageText, "user-message");
+        userInput.value = "";
+
+        const userID = localStorage.getItem('userID');
+
+        try {
+            console.log("📤 Enviando mensaje:", messageText);
+            const response = await fetch("https://hook.us2.make.com/wnnftj140mu7yd4mvconfbl1jh1snan3", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ 
+                    message: messageText, // SOLO TEXTO, SIN FORMATO EXTRA
+                    user_id: userID
+                })
+            });
+
+            const data = await response.json();
+            addMessage(data.reply || "No entendí tu mensaje.", "bot-message");
+        } catch (error) {
+            addMessage("Error al conectar con el servidor.", "bot-message");
+        }
+    }
+
+    // Función para agregar mensajes al chat visualmente
+    function addMessage(text, className) {
+        const chatMessages = document.getElementById("chat-messages");
+        if (!chatMessages) {
+            console.warn("⚠️ No se encontró el contenedor del chat.");
+            return;
+        }
+        const messageElement = document.createElement("div");
+        messageElement.className = className;
+        messageElement.textContent = text;
+        chatMessages.appendChild(messageElement);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+    }
+
+    // Asegurar que las funciones sean accesibles globalmente
+    window.ensureChatLoaded = ensureChatLoaded;
+    window.sendMessage = sendMessage;
+    window.handleKeyPress = handleKeyPress;
+
 })();
