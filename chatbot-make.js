@@ -92,4 +92,5 @@ function addMessage(text, className) {
     messageElement.textContent = text;
     chatMessages.appendChild(messageElement);
     chatMessages.scrollTop = chatMessages.scrollHeight;
+    window.sendMessage = sendMessage;
 }
