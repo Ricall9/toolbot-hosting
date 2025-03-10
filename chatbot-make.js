@@ -9,12 +9,16 @@
 
     console.log("⚠️ Botón no encontrado. Creando...");
 
-    // Crear botón flotante
+    // Crear botón flotante de manera segura
     var chatButton = document.createElement("div");
     chatButton.id = "chat-float";
-    chatButton.innerHTML = `
-      <img src="https://global-files-nginx.builderall.com/b697fce1-080a-4ec6-85a5-d0a832503b07/1ab1571b59d4ae684ba6638f6157d8ad31b74bdcd28f99ecf6a3f075ab05b0c0.svg" width="50" height="50">
-    `;
+
+    var img = document.createElement("img");
+    img.src = "https://global-files-nginx.builderall.com/b697fce1-080a-4ec6-85a5-d0a832503b07/1ab1571b59d4ae684ba6638f6157d8ad31b74bdcd28f99ecf6a3f075ab05b0c0.svg";
+    img.width = 50;
+    img.height = 50;
+
+    chatButton.appendChild(img);
     chatButton.style.position = "fixed";
     chatButton.style.bottom = "20px";
     chatButton.style.right = "20px";
@@ -31,13 +35,6 @@
     document.body.appendChild(chatButton);
     console.log("✅ Botón del chat flotante creado.");
 })();
-
-// Reejecutar si la pestaña vuelve a ser visible
-document.addEventListener("visibilitychange", function() {
-    if (document.visibilityState === "visible") {
-        ensureChatLoaded();
-    }
-});
 
 // Revisar cada 3 segundos si el botón desaparece y recrearlo
 setInterval(() => {
