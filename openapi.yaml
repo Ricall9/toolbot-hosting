@@ -1,0 +1,42 @@
+openapi: 3.1.0
+info:
+  title: OXYMAS - Webhook para Instrucciones e Informes
+  version: 1.2.0
+paths:
+  /:
+    post:
+      summary: Procesar mensajes desde OXYMAS (consultas o instrucciones)
+      operationId: recibirMensajeOxymas
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                mensaje:
+                  type: string
+                  description: Mensaje completo del usuario cuando es consulta específica por cilindro.
+                  example: "¿Quién tiene el cilindro número 3435342?"
+                cilindro:
+                  type: string
+                  description: Número del cilindro (solo en consultas específicas de cilindros).
+                  example: "3435342"
+                instruction:
+                  type: string
+                  description: Instrucción o mensaje general del usuario para otras acciones.
+                  example: "Registra que se entregaron 3 cilindros a Clínica Lima."
+                action:
+                  type: string
+                  enum: ["Guardar instrucción", "Guardar informe", "Consultar informe"]
+                  description: Acción que el asistente debe ejecutar.
+                  example: "Consultar informe"
+              required:
+                - action
+      responses:
+        "200":
+          description: Instrucción procesada correctamente.
+        "500":
+          description: Error interno del servidor.
+servers:
+  - url: https://oxymas-proxy.vercel.app/api
