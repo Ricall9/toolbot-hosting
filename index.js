@@ -11,11 +11,12 @@ export default async function handler(req, res) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(req.body), // <== este paso es clave
     });
 
-    const data = await response.json().catch(() => ({}));
-    res.status(response.status).json(data);
+    const text = await response.text();
+
+    res.status(response.status).send(text);
   } catch (error) {
     console.error("Proxy error:", error);
     res.status(500).json({ error: "Proxy error" });
