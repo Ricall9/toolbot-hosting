@@ -1,10 +1,5 @@
 {
-  "version": 2,
-  "routes": [
-    {
-      "src": "/",
-      "methods": ["POST"],
-      "dest": "/index.js"
-    }
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "/api/index.js" }
   ]
 }
