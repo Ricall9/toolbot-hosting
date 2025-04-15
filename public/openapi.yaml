@@ -44,10 +44,11 @@ paths:
 servers:
   - url: https://api.oxymas.com/api
 security:
-  - ApiKeyAuth: []
+  - ApiKeyAuth: [qwertyuiop]
 components:
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
+
