@@ -35,6 +35,8 @@ paths:
                   description: Acción que el asistente debe ejecutar.
                   example: Consultar informe
               required:
+                - mensaje
+                - instruction
                 - action
       responses:
         "200":
