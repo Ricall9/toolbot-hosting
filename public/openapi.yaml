@@ -43,12 +43,16 @@ paths:
           description: Error interno del servidor.
 servers:
   - url: https://api.oxymas.com/api
+
 security:
   - ApiKeyAuth: [qwertyuiop]
+
 components:
+  schemas: {}
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
+
 
