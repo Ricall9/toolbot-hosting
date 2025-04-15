@@ -14,17 +14,10 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
-    const result = await response.json().catch(() => ({}));
-
-    // 🔎 Enviamos solo el texto que GPT debe mostrar
-    res.status(200).json({
-      respuesta: result.respuesta || "No se obtuvo respuesta del sistema.",
-    });
-
+    const data = await response.json().catch(() => ({}));
+    res.status(response.status).json(data);
   } catch (error) {
-    res.status(500).json({
-      respuesta: "No se pudo conectar al sistema de gestión en este momento.",
-      error: error.message,
-    });
+    console.error("Proxy error:", error);
+    res.status(500).json({ error: "Proxy error", details: error.message });
   }
 }
