@@ -17,7 +17,7 @@ paths:
                 mensaje:
                   type: string
                   description: Mensaje completo del usuario cuando es consulta específica por cilindro.
-                  example: "¿Quién tiene el cilindro número 3435342?"
+                  example: ¿Quién tiene el cilindro número 3435342?
                 cilindro:
                   type: string
                   description: Número del cilindro (solo en consultas específicas de cilindros).
@@ -25,12 +25,15 @@ paths:
                 instruction:
                   type: string
                   description: Instrucción o mensaje general del usuario para otras acciones.
-                  example: "Registra que se entregaron 3 cilindros a Clínica Lima."
+                  example: Registra que se entregaron 3 cilindros a Clínica Lima.
                 action:
                   type: string
-                  enum: ["Guardar instrucción", "Guardar informe", "Consultar informe"]
+                  enum:
+                    - Guardar instrucción
+                    - Guardar informe
+                    - Consultar informe
                   description: Acción que el asistente debe ejecutar.
-                  example: "Consultar informe"
+                  example: Consultar informe
               required:
                 - action
       responses:
@@ -40,4 +43,3 @@ paths:
           description: Error interno del servidor.
 servers:
   - url: https://api.oxymas.com/api
-
