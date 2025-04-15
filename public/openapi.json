@@ -9,6 +9,11 @@
       "post": {
         "summary": "Procesar mensajes desde OXYMAS (consultas o instrucciones)",
         "operationId": "recibirMensajeOxymas",
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -62,5 +67,14 @@
     {
       "url": "https://api.oxymas.com/api"
     }
-  ]
+  ],
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  }
 }
