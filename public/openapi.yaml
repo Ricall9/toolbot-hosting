@@ -1,63 +1,48 @@
-openapi: 3.1.0
+openapi: 3.0.0
 info:
-  title: OXYMAS - Webhook para Instrucciones e Informes
-  version: 1.2.0
-
-security:
-  - BearerAuth: []
-
-servers:
-  - url: https://api.oxymas.com/api
+  title: Oxymas API - Control de Cilindros
+  version: 1.0.0
 
 paths:
-  /:
+  /control-cilindros:
     post:
-      summary: Procesar mensajes desde OXYMAS (consultas o instrucciones)
-      operationId: recibirMensajeOxymas
-      security:
-        - BearerAuth: []
+      summary: Recibe los datos de la tabla de control de cilindros
+      operationId: recibirControlCilindros
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ConsultaOxymas'
+              type: object
+              properties:
+                registros:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      NOMBRE:
+                        type: string
+                      CILINDRO:
+                        type: string
+                      PRODUCTO:
+                        type: string
+                      CAPACIDAD:
+                        type: string
+                      RECIBO_ENTREGA:
+                        type: string
+                      FECHA_ENTREGA:
+                        type: string
+                      RECIBO_DEVOLUCION:
+                        type: string
+                      FECHA_DEVOLUCION:
+                        type: string
+                      PROPIEDAD:
+                        type: string
+                      NOTA:
+                        type: string
       responses:
-        "200":
-          description: Respuesta procesada correctamente.
-        "500":
-          description: Error interno del servidor.
+        '200':
+          description: Datos recibidos correctamente
 
-components:
-  securitySchemes:
-    BearerAuth:
-      type: http
-      scheme: bearer
-
-  schemas:
-    ConsultaOxymas:
-      type: object
-      properties:
-        mensaje:
-          type: string
-          description: Pregunta o instrucción del usuario.
-          example: "¿Quién tiene el cilindro 1140?"
-        cilindro:
-          type: string
-          description: Número de cilindro si aplica
-          example: "1140"
-        instruction:
-          type: string
-          description: Texto libre para registrar llegada o entrega
-          example: "Registra que llegamos al hospital de Surco"
-        action:
-          type: string
-          description: Tipo de acción a ejecutar
-          enum:
-            - Guardar instrucción
-            - Guardar informe
-            - Consultar informe
-          example: "Consultar informe"
-      required:
-        - mensaje
-        - action
+servers:
+  - url: https://oxymas.com/api
