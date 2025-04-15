@@ -5,8 +5,10 @@ info:
 paths:
   /:
     post:
-      summary: Procesar mensajes desde OXYMAS (consultas o instrucciones)
+      summary: Procesar mensajes desde OXYMAS
       operationId: recibirMensajeOxymas
+      security:
+        - ApiKeyAuth: []
       requestBody:
         required: true
         content:
@@ -16,30 +18,29 @@ paths:
               properties:
                 mensaje:
                   type: string
-                  description: Mensaje completo del usuario cuando es consulta específica por cilindro.
-                  example: ¿Quién tiene el cilindro número 3435342?
                 cilindro:
                   type: string
-                  description: Número del cilindro (solo en consultas específicas de cilindros).
-                  example: "3435342"
                 instruction:
                   type: string
-                  description: Instrucción o mensaje general del usuario para otras acciones.
-                  example: Registra que se entregaron 3 cilindros a Clínica Lima.
                 action:
                   type: string
                   enum:
                     - Guardar instrucción
                     - Guardar informe
                     - Consultar informe
-                  description: Acción que el asistente debe ejecutar.
-                  example: Consultar informe
               required:
                 - action
       responses:
         "200":
-          description: Instrucción procesada correctamente.
+          description: Éxito
         "500":
-          description: Error interno del servidor.
+          description: Error interno
 servers:
   - url: https://api.oxymas.com/api
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
