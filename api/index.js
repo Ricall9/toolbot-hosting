@@ -14,19 +14,17 @@ export default async function handler(req, res) {
       body: JSON.stringify(req.body),
     });
 
-    const data = await response.json().catch(() => ({}));
+    const result = await response.json().catch(() => ({}));
 
-    // 🔍 Aseguramos que "respuesta" no tenga comillas dobles internas que rompan el parseo
-    if (typeof data.respuesta === "string") {
-      data.respuesta = data.respuesta.replace(/["“”]/g, ""); // elimina comillas internas si existen
-    }
-
+    // 🔎 Enviamos solo el texto que GPT debe mostrar
     res.status(200).json({
-      ...data,
+      respuesta: result.respuesta || "No se obtuvo respuesta del sistema.",
     });
 
   } catch (error) {
-    console.error("❌ Proxy error:", error);
-    res.status(500).json({ error: "Proxy error", details: error.message });
+    res.status(500).json({
+      respuesta: "No se pudo conectar al sistema de gestión en este momento.",
+      error: error.message,
+    });
   }
 }
