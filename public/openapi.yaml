@@ -3,6 +3,9 @@ info:
   title: OXYMAS - Webhook para Instrucciones e Informes
   version: 1.2.0
 
+security:
+  - BearerAuth: []
+
 servers:
   - url: https://api.oxymas.com/api
 
@@ -49,12 +52,12 @@ components:
           example: "Registra que llegamos al hospital de Surco"
         action:
           type: string
+          description: Tipo de acción a ejecutar
           enum:
             - Guardar instrucción
             - Guardar informe
             - Consultar informe
-          description: Tipo de acción a ejecutar
-          example: Consultar informe
+          example: "Consultar informe"
       required:
         - mensaje
         - action
