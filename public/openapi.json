@@ -4,6 +4,11 @@
     "title": "OXYMAS - Webhook para Instrucciones e Informes",
     "version": "1.2.0"
   },
+  "security": [
+    {
+      "BearerAuth": []
+    }
+  ],
   "servers": [
     {
       "url": "https://api.oxymas.com/api"
