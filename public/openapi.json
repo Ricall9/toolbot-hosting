@@ -16,7 +16,7 @@
         "operationId": "recibirMensajeOxymas",
         "security": [
           {
-            "ApiKeyAuth": []
+            "BearerAuth": []
           }
         ],
         "requestBody": {
@@ -42,10 +42,9 @@
   },
   "components": {
     "securitySchemes": {
-      "ApiKeyAuth": {
-        "type": "apiKey",
-        "in": "header",
-        "name": "Authorization"
+      "BearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
       }
     },
     "schemas": {
@@ -69,12 +68,12 @@
           },
           "action": {
             "type": "string",
+            "description": "Tipo de acción a ejecutar",
             "enum": [
               "Guardar instrucción",
               "Guardar informe",
               "Consultar informe"
             ],
-            "description": "Tipo de acción a ejecutar",
             "example": "Consultar informe"
           }
         },
