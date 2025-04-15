@@ -68,7 +68,13 @@
       "url": "https://api.oxymas.com/api"
     }
   ],
+  "security": [
+    {
+      "ApiKeyAuth": [qwertyuiop]
+    }
+  ],
   "components": {
+    "schemas": {},
     "securitySchemes": {
       "ApiKeyAuth": {
         "type": "apiKey",
