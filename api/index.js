@@ -1,6 +1,6 @@
 export const config = {
   api: {
-    bodyParser: true,
+    bodyParser: true, // ACTIVAMOS bodyParser
   },
 };
 
@@ -11,13 +11,13 @@ export default async function handler(req, res) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(req.body),
+      body: JSON.stringify(req.body), // accedemos directamente al body
     });
 
     const data = await response.json().catch(() => ({}));
     res.status(response.status).json(data);
   } catch (error) {
     console.error("Proxy error:", error);
-    res.status(500).json({ error: "Proxy error" });
+    res.status(500).json({ error: "Proxy error", details: error.message });
   }
 }
