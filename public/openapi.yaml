@@ -2,57 +2,60 @@ openapi: 3.1.0
 info:
   title: OXYMAS - Webhook para Instrucciones e Informes
   version: 1.2.0
+
+servers:
+  - url: https://api.oxymas.com/api
+
 paths:
   /:
     post:
       summary: Procesar mensajes desde OXYMAS (consultas o instrucciones)
       operationId: recibirMensajeOxymas
+      security:
+        - ApiKeyAuth: []
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                mensaje:
-                  type: string
-                  description: Mensaje completo del usuario cuando es consulta específica por cilindro.
-                  example: "¿Quién tiene el cilindro número 3435342?"
-                cilindro:
-                  type: string
-                  description: Número del cilindro (solo en consultas específicas de cilindros).
-                  example: "3435342"
-                instruction:
-                  type: string
-                  description: Instrucción o mensaje general del usuario para otras acciones.
-                  example: "Registra que se entregaron 3 cilindros a Clínica Lima."
-                action:
-                  type: string
-                  enum:
-                    - Guardar instrucción
-                    - Guardar informe
-                    - Consultar informe
-                  description: Acción que el asistente debe ejecutar.
-                  example: Consultar informe
-              required:
-                - action
+              $ref: '#/components/schemas/ConsultaOxymas'
       responses:
         "200":
-          description: Instrucción procesada correctamente.
+          description: Respuesta procesada correctamente.
         "500":
           description: Error interno del servidor.
-servers:
-  - url: https://api.oxymas.com/api
-
-security:
-  - ApiKeyAuth: [qwertyuiop]
 
 components:
-  schemas: {}
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
 
-
+  schemas:
+    ConsultaOxymas:
+      type: object
+      properties:
+        mensaje:
+          type: string
+          description: Pregunta o instrucción del usuario.
+          example: "¿Quién tiene el cilindro 1140?"
+        cilindro:
+          type: string
+          description: Número de cilindro si aplica
+          example: "1140"
+        instruction:
+          type: string
+          description: Texto libre para registrar llegada o entrega
+          example: "Registra que llegamos al hospital de Surco"
+        action:
+          type: string
+          enum:
+            - Guardar instrucción
+            - Guardar informe
+            - Consultar informe
+          description: Tipo de acción a ejecutar
+          example: Consultar informe
+      required:
+        - mensaje
+        - action
